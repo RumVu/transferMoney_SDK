@@ -17,35 +17,26 @@ import Foundation
 /// // 1. Khởi tạo
 /// let converter = TransferMoney_core()
 ///
-/// // 2. Đổi tiền — shorthand (chỉ lấy số tiền)
+/// // 2. Đổi tiền với tỷ giá mặc định
+/// let result = try converter.convert(amount: 1_000_000, from: .VND, to: .USD, choose: .standard)
+/// print(result.targetAmount)          // 39.292...
+/// print(result.FormattedTargetAmount) // "$ 39.2927"
+///
+/// // 3. Đổi tiền với tỷ giá tuỳ chỉnh
+/// let result2 = try converter.convert(amount: 1_000_000, from: .VND, to: .USD, choose: .customRate(25_800))
+///
+/// // 4. Shorthand — chỉ lấy số tiền
 /// let usd = try converter.vndToUsd(1_000_000) // → 39.292...
 /// let vnd = try converter.usdToVnd(10)         // → 254500.0
-///
-/// // 3. Đổi tiền — đầy đủ (lấy kèm tỷ giá, timestamp, version SDK...)
-/// let result = try converter.convert(amount: 1_000_000, from: .VND, to: .USD)
-/// print(result.targetAmount)          // 39.292...
-/// print(result.exchangeRate)          // 25450.0
-/// print(result.FormattedTargetAmount) // "$ 39.2927"
-/// print(result.timeStamp)             // 2026-04-16 ...
-/// ```
-///
-/// ## Muốn dùng tỷ giá riêng?
-///
-/// ```swift
-/// // Cách 1 — set khi khởi tạo
-/// let converter = TransferMoney_core(config: ConversionConfigs(VNDtoUSDRate: 25_800))
-///
-/// // Cách 2 — cập nhật lúc runtime (ví dụ sau khi fetch từ server)
-/// try converter.updateExchangeRates(25_900)
 /// ```
 ///
 /// ## Xử lý lỗi
 ///
 /// ```swift
 /// do {
-///     let usd = try converter.vndToUsd(-100)
+///     let result = try converter.convert(amount: -100, from: .VND, to: .USD, choose: .standard)
 /// } catch CurrenciesError.invalidAmount(let msg) {
-///     print(msg) // "Amount must be >= 0, got -100"
+///     print(msg)
 /// } catch CurrenciesError.invalidExchangeRates(let rate) {
 ///     print("Tỷ giá không hợp lệ: \(rate)")
 /// } catch CurrenciesError.unsupportedConversion(let from, let to) {
@@ -56,7 +47,7 @@ import Foundation
 /// - Note: Class này là `final` — không thể kế thừa.
 public final class TransferMoney_core {
 
-    // MARK: Properties
+    // MARK: - Properties
 
     /// Cấu hình hiện tại của converter (chỉ đọc từ bên ngoài).
     ///
@@ -89,8 +80,6 @@ public final class TransferMoney_core {
 
     /// Cập nhật tỷ giá VND/USD tại thời điểm chạy.
     ///
-    /// Gọi hàm này khi bạn nhận được tỷ giá mới từ server trước mỗi lần convert.
-    ///
     /// - Parameter rate: Tỷ giá mới (số VND tương đương 1 USD). Phải **> 0**.
     /// - Throws: ``CurrenciesError/invalidExchangeRates(_:)`` nếu `rate ≤ 0`.
     ///
@@ -109,84 +98,42 @@ public final class TransferMoney_core {
 
     /// Chuyển đổi một số tiền giữa hai loại tiền tệ được hỗ trợ.
     ///
-    /// Các cặp tiền tệ hỗ trợ trong v0.0.1:
-    /// - ``Currency/VND`` → ``Currency/USD``
-    /// - ``Currency/USD`` → ``Currency/VND``
-    /// - Cùng loại tiền (VD: VND → VND): trả về nguyên số tiền gốc.
-    ///
     /// - Parameters:
     ///   - amount: Số tiền cần chuyển đổi. Phải **≥ 0**.
-    ///   - sourcCurrency: Loại tiền tệ nguồn (``Currency``).
-    ///   - targetCurrency: Loại tiền tệ đích (``Currency``).
-    /// - Returns: ``ConversionResults`` chứa đầy đủ thông tin: số tiền đổi được,
-    ///   tỷ giá đã dùng, timestamp, version SDK.
-    /// - Throws:
-    ///   - ``CurrenciesError/invalidAmount(_:)`` nếu `amount < 0`.
-    ///   - ``CurrenciesError/unsupportedConversion(from:to:)`` nếu cặp tiền tệ chưa hỗ trợ.
+    ///   - from: Loại tiền tệ nguồn (``Currency``).
+    ///   - to: Loại tiền tệ đích (``Currency``).
+    ///   - choose: Tuỳ chọn tỷ giá (``ConversionOption``).
+    ///     - `.standard` — dùng tỷ giá đã cấu hình sẵn.
+    ///     - `.customRate(Double)` — dùng tỷ giá bạn tự cung cấp.
+    /// - Returns: ``ConversionResults`` chứa đầy đủ thông tin chuyển đổi.
+    /// - Throws: ``CurrenciesError`` nếu input không hợp lệ.
     ///
     /// ## Ví dụ
     /// ```swift
     /// let converter = TransferMoney_core()
     ///
-    /// // VND → USD
-    /// let result = try converter.convert(amount: 2_000_000, from: .VND, to: .USD)
-    /// print(result.targetAmount)          // 78.585...
-    /// print(result.FormattedTargetAmount) // "$ 78.5852"
-    ///
-    /// // USD → VND
-    /// let result2 = try converter.convert(amount: 50, from: .USD, to: .VND)
-    /// print(result2.targetAmount) // 1272500.0
+    /// let result = try converter.convert(amount: 2_000_000, from: .VND, to: .USD, choose: .standard)
+    /// let result2 = try converter.convert(amount: 2_000_000, from: .VND, to: .USD, choose: .customRate(25_800))
     /// ```
     @discardableResult
     public func convert(
         amount: Double,
-        from sourcCurrency: Currency,
-        to targetCurrency: Currency
+        from: Currency,
+        to: Currency,
+        choose: ConversionOption
     ) throws -> ConversionResults {
-        guard amount >= 0 else {
-            throw CurrenciesError.invalidAmount("Amount must be >= 0, got \(amount)")
-        }
-        let convertedAmount: Double
-        let rateUsed: Double
-        switch (sourcCurrency, targetCurrency) {
-
-        case (.VND, .USD):
-            convertedAmount = round(
-                (amount / config.VNDtoUSDRate) * pow(10, Double(config.decimalPrecision))
-            ) / pow(10, Double(config.decimalPrecision))
-            rateUsed = config.VNDtoUSDRate
-
-        case (.USD, .VND):
-            convertedAmount = round(amount * config.VNDtoUSDRate)
-            rateUsed = config.VNDtoUSDRate
-
-        case let (src, dst) where src == dst:
-            convertedAmount = amount
-            rateUsed = 1.0
-
-        default:
-            throw CurrenciesError.unsupportedConversion(from: sourcCurrency, to: targetCurrency)
-        }
-        return ConversionResults(
-            sourceAmount: amount,
-            sourceCurrency: sourcCurrency,
-            targetAmount: convertedAmount,
-            targetCurrency: targetCurrency,
-            exchangeRate: rateUsed,
-            sdkVersion: TransferMoneySDK.version,
-            timeStamp: Date()
-        )
+        try _validate(amount: amount)
+        let rate = try _resolveRate(from: choose)
+        let (convertedAmount, rateUsed) = try _calculate(amount: amount, from: from, to: to, rate: rate)
+        return _buildResult(amount: amount, from: from, to: to, converted: convertedAmount, rate: rateUsed)
     }
 
     // MARK: - Convenience Methods
 
     /// Chuyển đổi VND sang USD (shorthand).
     ///
-    /// Tương đương với gọi ``convert(amount:from:to:)`` với `from: .VND, to: .USD`
-    /// và lấy `targetAmount` từ kết quả.
-    ///
     /// - Parameter vnd: Số tiền VND cần đổi. Phải **≥ 0**.
-    /// - Returns: Số tiền USD tương đương (kiểu `Double`).
+    /// - Returns: Số tiền USD tương đương.
     /// - Throws: ``CurrenciesError/invalidAmount(_:)`` nếu `vnd < 0`.
     ///
     /// ## Ví dụ
@@ -194,17 +141,13 @@ public final class TransferMoney_core {
     /// let usd = try converter.vndToUsd(1_000_000) // ≈ 39.29
     /// ```
     public func vndToUsd(_ vnd: Double) throws -> Double {
-        let result = try convert(amount: vnd, from: .VND, to: .USD)
-        return result.targetAmount
+        try convert(amount: vnd, from: .VND, to: .USD, choose: .standard).targetAmount
     }
 
     /// Chuyển đổi USD sang VND (shorthand).
     ///
-    /// Tương đương với gọi ``convert(amount:from:to:)`` với `from: .USD, to: .VND`
-    /// và lấy `targetAmount` từ kết quả.
-    ///
     /// - Parameter usd: Số tiền USD cần đổi. Phải **≥ 0**.
-    /// - Returns: Số tiền VND tương đương (kiểu `Double`).
+    /// - Returns: Số tiền VND tương đương.
     /// - Throws: ``CurrenciesError/invalidAmount(_:)`` nếu `usd < 0`.
     ///
     /// ## Ví dụ
@@ -212,7 +155,68 @@ public final class TransferMoney_core {
     /// let vnd = try converter.usdToVnd(10) // 254500.0
     /// ```
     public func usdToVnd(_ usd: Double) throws -> Double {
-        let result = try convert(amount: usd, from: .USD, to: .VND)
-        return result.targetAmount
+        try convert(amount: usd, from: .USD, to: .VND, choose: .standard).targetAmount
+    }
+}
+
+// MARK: - Private Processing
+
+private extension TransferMoney_core {
+
+    func _validate(amount: Double) throws {
+        guard amount >= 0 else {
+            throw CurrenciesError.invalidAmount("Amount must be >= 0, got \(amount)")
+        }
+    }
+
+    func _resolveRate(from option: ConversionOption) throws -> Double {
+        switch option {
+        case .standard:
+            return config.VNDtoUSDRate
+        case .customRate(let rate):
+            guard rate > 0 else {
+                throw CurrenciesError.invalidExchangeRates(rate)
+            }
+            return rate
+        }
+    }
+
+    func _calculate(
+        amount: Double,
+        from: Currency,
+        to: Currency,
+        rate: Double
+    ) throws -> (converted: Double, rate: Double) {
+        switch (from, to) {
+        case (.VND, .USD):
+            let result = round(
+                (amount / rate) * pow(10, Double(config.decimalPrecision))
+            ) / pow(10, Double(config.decimalPrecision))
+            return (result, rate)
+        case (.USD, .VND):
+            return (round(amount * rate), rate)
+        case let (src, dst) where src == dst:
+            return (amount, 1.0)
+        default:
+            throw CurrenciesError.unsupportedConversion(from: from, to: to)
+        }
+    }
+
+    func _buildResult(
+        amount: Double,
+        from: Currency,
+        to: Currency,
+        converted: Double,
+        rate: Double
+    ) -> ConversionResults {
+        ConversionResults(
+            sourceAmount: amount,
+            sourceCurrency: from,
+            targetAmount: converted,
+            targetCurrency: to,
+            exchangeRate: rate,
+            sdkVersion: TransferMoneySDK.version,
+            timeStamp: Date()
+        )
     }
 }
