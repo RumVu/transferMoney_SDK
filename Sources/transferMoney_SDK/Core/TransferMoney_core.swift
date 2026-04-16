@@ -108,9 +108,10 @@ public final class TransferMoney_core {
     /// - Returns: ``ConversionResults`` chứa đầy đủ thông tin chuyển đổi.
     /// - Throws: ``CurrenciesError`` nếu input không hợp lệ.
     ///
-    /// ## Các cặp tiền tệ hỗ trợ (v0.0.3)
+    /// ## Các cặp tiền tệ hỗ trợ (v0.0.4)
     /// - VND ↔ USD
-    /// - VND → AUD *(tự động qua USD trung gian)*
+    /// - VND ↔ AUD *(qua USD trung gian)*
+    /// - USD ↔ AUD
     ///
     /// ## Ví dụ
     /// ```swift
@@ -218,6 +219,27 @@ private extension TransferMoney_core {
             // Tỷ giá thực tế VND/AUD = VNDtoUSD / AUDtoUSD
             let effectiveRate = config.VNDtoUSDRate * config.AUDtoUSDRate
             return (aud, effectiveRate)
+
+        case (.USD, .AUD):
+            let result = round(
+                (amount * config.AUDtoUSDRate) * pow(10, Double(config.decimalPrecision))
+            ) / pow(10, Double(config.decimalPrecision))
+            return (result, config.AUDtoUSDRate)
+
+        case (.AUD, .USD):
+            let result = round(
+                (amount / config.AUDtoUSDRate) * pow(10, Double(config.decimalPrecision))
+            ) / pow(10, Double(config.decimalPrecision))
+            return (result, config.AUDtoUSDRate)
+
+        case (.AUD, .VND):
+            // Bước 1: AUD → USD
+            let usd = amount / config.AUDtoUSDRate
+            // Bước 2: USD → VND
+            let vnd = round(usd * config.VNDtoUSDRate)
+            // Tỷ giá thực tế AUD/VND = VNDtoUSD / AUDtoUSD
+            let effectiveRate = config.VNDtoUSDRate / config.AUDtoUSDRate
+            return (vnd, effectiveRate)
 
         case let (src, dst) where src == dst:
             return (amount, 1.0)

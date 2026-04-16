@@ -16,7 +16,7 @@ public struct TransferMoneySDK {
     ///
     /// Dùng để kiểm tra phiên bản trong kết quả chuyển đổi (`ConversionResults.sdkVersion`)
     /// hoặc khi cần log / debug.
-    public static let version = "0.0.3"
+    public static let version = "0.0.4"
 
     /// Tỷ giá VND/USD mặc định: **1 USD = 25,450 VND**.
     public static let defaultVNDToUSDRate: Double = 25_450.0

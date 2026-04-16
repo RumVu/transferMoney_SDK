@@ -12,7 +12,7 @@ final class transferMoney_SDKTests: XCTestCase {
 
     // MARK: - Version
     func testSDKVersion() {
-        XCTAssertEqual(TransferMoneySDK.version, "0.0.3")
+        XCTAssertEqual(TransferMoneySDK.version, "0.0.4")
     }
 
     // MARK: - VND → USD (.standard)
@@ -69,6 +69,34 @@ final class transferMoney_SDKTests: XCTestCase {
         XCTAssertEqual(result.targetAmount, 0.0)
     }
 
+    // MARK: - USD → AUD
+    func testUSDToAUD_10USD() throws {
+        let result = try converter.convert(amount: 10, from: .USD, to: .AUD, choose: .standard)
+        XCTAssertEqual(result.sourceCurrency, .USD)
+        XCTAssertEqual(result.targetCurrency, .AUD)
+        // 10 USD * 0.63 = 6.3 AUD
+        XCTAssertEqual(result.targetAmount, 6.3, accuracy: 0.01)
+    }
+
+    // MARK: - AUD → USD
+    func testAUDToUSD_50AUD() throws {
+        let result = try converter.convert(amount: 50, from: .AUD, to: .USD, choose: .standard)
+        XCTAssertEqual(result.sourceCurrency, .AUD)
+        XCTAssertEqual(result.targetCurrency, .USD)
+        // 50 AUD / 0.63 ≈ 79.37 USD
+        XCTAssertEqual(result.targetAmount, 79.37, accuracy: 0.01)
+    }
+
+    // MARK: - AUD → VND
+    func testAUDToVND_20AUD() throws {
+        let result = try converter.convert(amount: 20, from: .AUD, to: .VND, choose: .standard)
+        XCTAssertEqual(result.sourceCurrency, .AUD)
+        XCTAssertEqual(result.targetCurrency, .VND)
+        // 20 AUD / 0.63 ≈ 31.75 USD, then 31.75 * 25450 ≈ 807,587.5 VND
+        XCTAssertGreaterThan(result.targetAmount, 800_000.0)
+        XCTAssertLessThan(result.targetAmount, 820_000.0)
+    }
+
     // MARK: - Error Cases
     func testNegativeAmountThrows() {
         XCTAssertThrowsError(try converter.convert(amount: -100, from: .VND, to: .USD, choose: .standard))
@@ -87,7 +115,7 @@ final class transferMoney_SDKTests: XCTestCase {
     // MARK: - Result Fields
     func testResultContainsSDKVersion() throws {
         let result = try converter.convert(amount: 500_000, from: .VND, to: .USD, choose: .standard)
-        XCTAssertEqual(result.sdkVersion, "0.0.3")
+        XCTAssertEqual(result.sdkVersion, "0.0.4")
     }
 
     func testResultTimestampIsRecent() throws {
