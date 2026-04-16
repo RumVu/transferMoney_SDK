@@ -16,14 +16,13 @@ public struct TransferMoneySDK {
     ///
     /// Dùng để kiểm tra phiên bản trong kết quả chuyển đổi (`ConversionResults.sdkVersion`)
     /// hoặc khi cần log / debug.
-    public static let version = "0.0.2"
+    public static let version = "0.0.3"
 
     /// Tỷ giá VND/USD mặc định: **1 USD = 25,450 VND**.
-    ///
-    /// Đây là tỷ giá tĩnh dùng cho v0.0.1.
-    /// Trong môi trường production, nên thay thế bằng tỷ giá lấy từ nhà cung cấp thời gian thực
-    /// thông qua ``TransferMoney_core/updateExchangeRates(_:)``.
     public static let defaultVNDToUSDRate: Double = 25_450.0
+
+    /// Tỷ giá AUD/USD mặc định: **1 AUD = 0.63 USD**.
+    public static let defaultAUDToUSDRate: Double = 0.63
 
     private init() {}
 }

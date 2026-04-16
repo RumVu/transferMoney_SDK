@@ -9,25 +9,26 @@ import Foundation
 
 // MARK: - Currency
 
-/// Các loại tiền tệ được hỗ trợ bởi **transferMoney SDK** (v0.0.1).
+/// Các loại tiền tệ được hỗ trợ bởi **transferMoney SDK**.
 ///
 /// Dùng enum này để chỉ định tiền tệ nguồn và đích khi gọi
-/// ``TransferMoney_core/convert(amount:from:to:)``.
+/// ``TransferMoney_core/convert(amount:from:to:choose:)``.
+///
+/// ## Các cặp hỗ trợ (v0.0.3)
+/// - VND ↔ USD
+/// - VND → AUD *(qua USD trung gian)*
 ///
 /// ## Ví dụ
 /// ```swift
 /// let converter = TransferMoney_core()
 ///
-/// // Dùng trong convert
-/// let result = try converter.convert(amount: 500_000, from: .VND, to: .USD)
+/// let result = try converter.convert(amount: 500_000, from: .VND, to: .AUD, choose: .standard)
 ///
-/// // Truy cập metadata
-/// print(Currency.VND.displayName) // "VietNam Dong"
-/// print(Currency.USD.symbol)      // "$"
+/// print(Currency.AUD.displayName) // "Australian Dollar"
+/// print(Currency.AUD.symbol)      // "A$"
 ///
-/// // Liệt kê tất cả tiền tệ hỗ trợ
 /// for currency in Currency.allCases {
-///     print(currency.rawValue) // "VND", "USD"
+///     print(currency.rawValue) // "VND", "USD", "AUD"
 /// }
 /// ```
 public enum Currency: String, CaseIterable, Sendable {
@@ -38,14 +39,19 @@ public enum Currency: String, CaseIterable, Sendable {
     /// Đô la Mỹ ($).
     case USD = "USD"
 
+    /// Đô la Úc (A$).
+    case AUD = "AUD"
+
     /// Tên đầy đủ của loại tiền tệ.
     ///
     /// - VND → `"VietNam Dong"`
     /// - USD → `"Dollar"`
+    /// - AUD → `"Australian Dollar"`
     public var displayName: String {
         switch self {
         case .VND: return "VietNam Dong"
         case .USD: return "Dollar"
+        case .AUD: return "Australian Dollar"
         }
     }
 
@@ -53,10 +59,12 @@ public enum Currency: String, CaseIterable, Sendable {
     ///
     /// - VND → `"đ"`
     /// - USD → `"$"`
+    /// - AUD → `"A$"`
     public var symbol: String {
         switch self {
         case .VND: return "đ"
         case .USD: return "$"
+        case .AUD: return "A$"
         }
     }
 }

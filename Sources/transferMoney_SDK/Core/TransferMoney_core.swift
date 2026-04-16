@@ -104,16 +104,26 @@ public final class TransferMoney_core {
     ///   - to: Loại tiền tệ đích (``Currency``).
     ///   - choose: Tuỳ chọn tỷ giá (``ConversionOption``).
     ///     - `.standard` — dùng tỷ giá đã cấu hình sẵn.
-    ///     - `.customRate(Double)` — dùng tỷ giá bạn tự cung cấp.
+    ///     - `.customRate(Double)` — dùng tỷ giá VND/USD bạn tự cung cấp.
     /// - Returns: ``ConversionResults`` chứa đầy đủ thông tin chuyển đổi.
     /// - Throws: ``CurrenciesError`` nếu input không hợp lệ.
+    ///
+    /// ## Các cặp tiền tệ hỗ trợ (v0.0.3)
+    /// - VND ↔ USD
+    /// - VND → AUD *(tự động qua USD trung gian)*
     ///
     /// ## Ví dụ
     /// ```swift
     /// let converter = TransferMoney_core()
     ///
+    /// // VND → USD
     /// let result = try converter.convert(amount: 2_000_000, from: .VND, to: .USD, choose: .standard)
-    /// let result2 = try converter.convert(amount: 2_000_000, from: .VND, to: .USD, choose: .customRate(25_800))
+    ///
+    /// // VND → AUD (qua USD trung gian, tự động)
+    /// let result2 = try converter.convert(amount: 2_000_000, from: .VND, to: .AUD, choose: .standard)
+    ///
+    /// // Tỷ giá tuỳ chỉnh
+    /// let result3 = try converter.convert(amount: 2_000_000, from: .VND, to: .USD, choose: .customRate(25_800))
     /// ```
     @discardableResult
     public func convert(
@@ -188,15 +198,30 @@ private extension TransferMoney_core {
         rate: Double
     ) throws -> (converted: Double, rate: Double) {
         switch (from, to) {
+
         case (.VND, .USD):
             let result = round(
                 (amount / rate) * pow(10, Double(config.decimalPrecision))
             ) / pow(10, Double(config.decimalPrecision))
             return (result, rate)
+
         case (.USD, .VND):
             return (round(amount * rate), rate)
+
+        case (.VND, .AUD):
+            // Bước 1: VND → USD
+            let usd = amount / config.VNDtoUSDRate
+            // Bước 2: USD → AUD
+            let aud = round(
+                (usd / config.AUDtoUSDRate) * pow(10, Double(config.decimalPrecision))
+            ) / pow(10, Double(config.decimalPrecision))
+            // Tỷ giá thực tế VND/AUD = VNDtoUSD / AUDtoUSD
+            let effectiveRate = config.VNDtoUSDRate * config.AUDtoUSDRate
+            return (aud, effectiveRate)
+
         case let (src, dst) where src == dst:
             return (amount, 1.0)
+
         default:
             throw CurrenciesError.unsupportedConversion(from: from, to: to)
         }

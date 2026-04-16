@@ -12,7 +12,7 @@ final class transferMoney_SDKTests: XCTestCase {
 
     // MARK: - Version
     func testSDKVersion() {
-        XCTAssertEqual(TransferMoneySDK.version, "0.0.2")
+        XCTAssertEqual(TransferMoneySDK.version, "0.0.3")
     }
 
     // MARK: - VND → USD (.standard)
@@ -53,6 +53,22 @@ final class transferMoney_SDKTests: XCTestCase {
         XCTAssertEqual(vnd, 127_250, accuracy: 1)
     }
 
+    // MARK: - VND → AUD (qua USD trung gian)
+    func testVNDToAUD_standard() throws {
+        // 1_000_000 VND → USD (/ 25450) → AUD (/ 0.63)
+        let result = try converter.convert(amount: 1_000_000, from: .VND, to: .AUD, choose: .standard)
+        XCTAssertEqual(result.sourceCurrency, .VND)
+        XCTAssertEqual(result.targetCurrency, .AUD)
+        XCTAssertGreaterThan(result.targetAmount, 0)
+        // 1_000_000 / 25450 / 0.63 ≈ 62.37 AUD
+        XCTAssertEqual(result.targetAmount, 62.37, accuracy: 0.5)
+    }
+
+    func testVNDToAUD_zeroAmount() throws {
+        let result = try converter.convert(amount: 0, from: .VND, to: .AUD, choose: .standard)
+        XCTAssertEqual(result.targetAmount, 0.0)
+    }
+
     // MARK: - Error Cases
     func testNegativeAmountThrows() {
         XCTAssertThrowsError(try converter.convert(amount: -100, from: .VND, to: .USD, choose: .standard))
@@ -71,7 +87,7 @@ final class transferMoney_SDKTests: XCTestCase {
     // MARK: - Result Fields
     func testResultContainsSDKVersion() throws {
         let result = try converter.convert(amount: 500_000, from: .VND, to: .USD, choose: .standard)
-        XCTAssertEqual(result.sdkVersion, "0.0.2")
+        XCTAssertEqual(result.sdkVersion, "0.0.3")
     }
 
     func testResultTimestampIsRecent() throws {
