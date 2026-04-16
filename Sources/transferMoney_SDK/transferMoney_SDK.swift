@@ -7,10 +7,10 @@
 ///
 /// ## Ví dụ
 /// ```swift
-/// print(transferMoney_SDK.version)          // "0.0.1"
-/// print(transferMoney_SDK.defaultVNDToUSDRate) // 25450.0
+/// print(TransferMoneySDK.version)          // "0.0.1"
+/// print(TransferMoneySDK.defaultVNDToUSDRate) // 25450.0
 /// ```
-public struct transferMoney_SDK {
+public struct TransferMoneySDK {
 
     /// Phiên bản hiện tại của SDK.
     ///

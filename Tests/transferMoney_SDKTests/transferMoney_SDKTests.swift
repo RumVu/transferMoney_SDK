@@ -13,7 +13,7 @@ final class transferMoney_SDKTests: XCTestCase {
     
     //MARK: version
     func testSDKVersion(){
-        XCTAssertEqual(transferMoney_SDK.version, "0.0.1")
+        XCTAssertEqual(TransferMoneySDK.version, "0.0.1")
     }
     
     //MARK: VND -> USD

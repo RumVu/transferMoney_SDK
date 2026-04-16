@@ -1,6 +1,6 @@
 //
 //  ConversionConfigs.swift
-//  transferMoney_SDK
+//  TransferMoneySDK
 //
 //  Created by Rum Vu on 16/4/26.
 //
@@ -28,7 +28,7 @@ public struct ConversionConfigs {
 
     /// Tỷ giá VND/USD: số VND tương đương với 1 USD.
     ///
-    /// Mặc định: `25_450.0` (lấy từ ``transferMoney_SDK/defaultVNDToUSDRate``).
+    /// Mặc định: `25_450.0` (lấy từ ``TransferMoneySDK/defaultVNDToUSDRate``).
     /// Có thể thay đổi sau khi khởi tạo bằng ``TransferMoney_core/updateExchangeRates(_:)``.
     public var VNDtoUSDRate: Double
 
@@ -43,7 +43,7 @@ public struct ConversionConfigs {
     ///   - VNDtoUSDRate: Tỷ giá VND/USD. Mặc định: `25_450.0`.
     ///   - decimalPrecision: Số chữ số thập phân để làm tròn. Mặc định: `6`.
     public init(
-        VNDtoUSDRate: Double = transferMoney_SDK.defaultVNDToUSDRate,
+        VNDtoUSDRate: Double = TransferMoneySDK.defaultVNDToUSDRate,
         decimalPrecision: Int = 6
     ) {
         self.VNDtoUSDRate = VNDtoUSDRate

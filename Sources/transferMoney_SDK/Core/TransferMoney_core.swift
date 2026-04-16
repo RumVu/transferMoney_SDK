@@ -9,37 +9,48 @@ import Foundation
 
 // MARK: - TransferMoney_core
 
-/// Engine chuyển đổi tiền tệ trung tâm của **transferMoney SDK**.
+/// **Đây là class duy nhất bạn cần dùng** để thực hiện chuyển đổi tiền tệ VND ↔ USD.
 ///
-/// Khởi tạo một instance rồi gọi ``convert(amount:from:to:)`` hoặc các hàm tiện lợi
-/// ``vndToUsd(_:)`` / ``usdToVnd(_:)`` để thực hiện chuyển đổi.
+/// ## Quick Start
 ///
-/// ## Khởi tạo nhanh (dùng tỷ giá mặc định)
 /// ```swift
+/// // 1. Khởi tạo
 /// let converter = TransferMoney_core()
-/// ```
 ///
-/// ## Khởi tạo với cấu hình tuỳ chỉnh
-/// ```swift
-/// let config = ConversionConfigs(VNDtoUSDRate: 25_100, decimalPrecision: 4)
-/// let converter = TransferMoney_core(config: config)
-/// ```
+/// // 2. Đổi tiền — shorthand (chỉ lấy số tiền)
+/// let usd = try converter.vndToUsd(1_000_000) // → 39.292...
+/// let vnd = try converter.usdToVnd(10)         // → 254500.0
 ///
-/// ## Cập nhật tỷ giá trước khi convert
-/// ```swift
-/// try converter.updateExchangeRates(25_800)
-/// ```
-///
-/// ## Chuyển đổi tiền tệ
-/// ```swift
-/// // Dùng hàm đầy đủ — nhận ConversionResults
+/// // 3. Đổi tiền — đầy đủ (lấy kèm tỷ giá, timestamp, version SDK...)
 /// let result = try converter.convert(amount: 1_000_000, from: .VND, to: .USD)
 /// print(result.targetAmount)          // 39.292...
-/// print(result.FormattedTargetAmount) // "$39.29"
+/// print(result.exchangeRate)          // 25450.0
+/// print(result.FormattedTargetAmount) // "$ 39.2927"
+/// print(result.timeStamp)             // 2026-04-16 ...
+/// ```
 ///
-/// // Dùng shorthand — chỉ nhận số tiền
-/// let usd = try converter.vndToUsd(500_000) // 19.646...
-/// let vnd = try converter.usdToVnd(10)      // 254500.0
+/// ## Muốn dùng tỷ giá riêng?
+///
+/// ```swift
+/// // Cách 1 — set khi khởi tạo
+/// let converter = TransferMoney_core(config: ConversionConfigs(VNDtoUSDRate: 25_800))
+///
+/// // Cách 2 — cập nhật lúc runtime (ví dụ sau khi fetch từ server)
+/// try converter.updateExchangeRates(25_900)
+/// ```
+///
+/// ## Xử lý lỗi
+///
+/// ```swift
+/// do {
+///     let usd = try converter.vndToUsd(-100)
+/// } catch CurrenciesError.invalidAmount(let msg) {
+///     print(msg) // "Amount must be >= 0, got -100"
+/// } catch CurrenciesError.invalidExchangeRates(let rate) {
+///     print("Tỷ giá không hợp lệ: \(rate)")
+/// } catch CurrenciesError.unsupportedConversion(let from, let to) {
+///     print("Chưa hỗ trợ \(from.rawValue) → \(to.rawValue)")
+/// }
 /// ```
 ///
 /// - Note: Class này là `final` — không thể kế thừa.
@@ -162,7 +173,7 @@ public final class TransferMoney_core {
             targetAmount: convertedAmount,
             targetCurrency: targetCurrency,
             exchangeRate: rateUsed,
-            sdkVersion: transferMoney_SDK.version,
+            sdkVersion: TransferMoneySDK.version,
             timeStamp: Date()
         )
     }
