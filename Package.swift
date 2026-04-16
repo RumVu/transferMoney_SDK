@@ -4,23 +4,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "transferMoney_SDK_v001",
+    name: "transferMoney_SDK",
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "transferMoney_SDK_v001",
-            targets: ["transferMoney_SDK_v001"]
+            name: "transferMoney_SDK",
+            targets: ["transferMoney_SDK"]
         ),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "transferMoney_SDK_v001"
+            name: "transferMoney_SDK"
         ),
         .testTarget(
-            name: "transferMoney_SDK_v001Tests",
-            dependencies: ["transferMoney_SDK_v001"]
+            name: "transferMoney_SDKTests",
+            dependencies: ["transferMoney_SDK"]
         ),
     ],
     swiftLanguageModes: [.v6]
