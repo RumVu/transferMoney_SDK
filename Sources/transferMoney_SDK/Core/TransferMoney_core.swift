@@ -9,7 +9,12 @@ import Foundation
 
 // MARK: - TransferMoney_core
 
-/// **Đây là class duy nhất bạn cần dùng** để thực hiện chuyển đổi tiền tệ VND ↔ USD.
+/// **Đây là class duy nhất bạn cần dùng** để thực hiện chuyển đổi tiền tệ giữa VND, USD, và AUD.
+///
+/// ## Các cặp tiền tệ được hỗ trợ
+/// - VND ↔ USD
+/// - USD ↔ AUD
+/// - VND ↔ AUD *(tự động qua USD trung gian)*
 ///
 /// ## Quick Start
 ///
@@ -17,15 +22,21 @@ import Foundation
 /// // 1. Khởi tạo
 /// let converter = TransferMoney_core()
 ///
-/// // 2. Đổi tiền với tỷ giá mặc định
+/// // 2. VND → USD với tỷ giá mặc định
 /// let result = try converter.convert(amount: 1_000_000, from: .VND, to: .USD, choose: .standard)
 /// print(result.targetAmount)          // 39.292...
 /// print(result.FormattedTargetAmount) // "$ 39.2927"
 ///
-/// // 3. Đổi tiền với tỷ giá tuỳ chỉnh
-/// let result2 = try converter.convert(amount: 1_000_000, from: .VND, to: .USD, choose: .customRate(25_800))
+/// // 3. USD → AUD
+/// let result2 = try converter.convert(amount: 100, from: .USD, to: .AUD, choose: .standard)
 ///
-/// // 4. Shorthand — chỉ lấy số tiền
+/// // 4. VND → AUD (qua USD trung gian)
+/// let result3 = try converter.convert(amount: 5_000_000, from: .VND, to: .AUD, choose: .standard)
+///
+/// // 5. Tỷ giá tuỳ chỉnh
+/// let result4 = try converter.convert(amount: 1_000_000, from: .VND, to: .USD, choose: .customRate(25_800))
+///
+/// // 6. Shorthand — chỉ lấy số tiền
 /// let usd = try converter.vndToUsd(1_000_000) // → 39.292...
 /// let vnd = try converter.usdToVnd(10)         // → 254500.0
 /// ```
@@ -120,11 +131,14 @@ public final class TransferMoney_core {
     /// // VND → USD
     /// let result = try converter.convert(amount: 2_000_000, from: .VND, to: .USD, choose: .standard)
     ///
-    /// // VND → AUD (qua USD trung gian, tự động)
-    /// let result2 = try converter.convert(amount: 2_000_000, from: .VND, to: .AUD, choose: .standard)
+    /// // USD → AUD
+    /// let result2 = try converter.convert(amount: 100, from: .USD, to: .AUD, choose: .standard)
+    ///
+    /// // AUD → VND (qua USD trung gian, tự động)
+    /// let result3 = try converter.convert(amount: 50, from: .AUD, to: .VND, choose: .standard)
     ///
     /// // Tỷ giá tuỳ chỉnh
-    /// let result3 = try converter.convert(amount: 2_000_000, from: .VND, to: .USD, choose: .customRate(25_800))
+    /// let result4 = try converter.convert(amount: 2_000_000, from: .VND, to: .USD, choose: .customRate(25_800))
     /// ```
     @discardableResult
     public func convert(
