@@ -119,7 +119,7 @@ public final class TransferMoney_core {
     /// - Returns: ``ConversionResults`` chứa đầy đủ thông tin chuyển đổi.
     /// - Throws: ``CurrenciesError`` nếu input không hợp lệ.
     ///
-    /// ## Các cặp tiền tệ hỗ trợ (v0.0.4)
+    /// ## Các cặp tiền tệ hỗ trợ
     /// - VND ↔ USD
     /// - VND ↔ AUD *(qua USD trung gian)*
     /// - USD ↔ AUD

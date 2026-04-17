@@ -14,9 +14,10 @@ import Foundation
 /// Dùng enum này để chỉ định tiền tệ nguồn và đích khi gọi
 /// ``TransferMoney_core/convert(amount:from:to:choose:)``.
 ///
-/// ## Các cặp hỗ trợ (v0.0.3)
+/// ## Các cặp hỗ trợ
 /// - VND ↔ USD
-/// - VND → AUD *(qua USD trung gian)*
+/// - USD ↔ AUD
+/// - VND ↔ AUD *(qua USD trung gian)*
 ///
 /// ## Ví dụ
 /// ```swift

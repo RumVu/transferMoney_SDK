@@ -10,21 +10,21 @@ import Foundation
 
 /// Kết quả đầy đủ trả về từ một lần chuyển đổi tiền tệ.
 ///
-/// Struct này được trả về bởi ``TransferMoney_core/convert(amount:from:to:)``.
+/// Struct này được trả về bởi ``TransferMoney_core/convert(amount:from:to:choose:)``.
 /// Nó chứa toàn bộ thông tin của phép đổi: số tiền, tỷ giá đã dùng,
 /// timestamp và phiên bản SDK — hữu ích cho việc hiển thị UI, audit log, hoặc debug.
 ///
 /// ## Ví dụ
 /// ```swift
 /// let converter = TransferMoney_core()
-/// let result = try converter.convert(amount: 2_000_000, from: .VND, to: .USD)
+/// let result = try converter.convert(amount: 2_000_000, from: .VND, to: .USD, choose: .standard)
 ///
 /// print(result.sourceAmount)           // 2000000.0
 /// print(result.targetAmount)           // 78.585...
 /// print(result.exchangeRate)           // 25450.0
 /// print(result.FormattedTargetAmount)  // "$ 78.5852"
 /// print(result.FormattedSourceAmount) // "đ 2000000.00"
-/// print(result.sdkVersion)             // "0.0.1"
+/// print(result.sdkVersion)             // "0.0.9"
 /// print(result.timeStamp)              // 2026-04-16 ...
 /// ```
 public struct ConversionResults {

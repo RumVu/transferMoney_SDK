@@ -1,13 +1,13 @@
 #!/bin/bash
 # Release script for transferMoney SDK
 # Usage: ./release.sh <version>
-# Example: ./release.sh 0.0.5
+# Example: ./release.sh 0.0.9
 
 set -e
 
 if [ -z "$1" ]; then
     echo "Usage: ./release.sh <version>"
-    echo "Example: ./release.sh 0.0.5"
+    echo "Example: ./release.sh 0.0.9"
     exit 1
 fi
 

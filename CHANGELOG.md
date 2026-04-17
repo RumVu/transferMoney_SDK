@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.0.9] - 2026-04-17
+
+### Added
+- Full DocC catalog under `Sources/transferMoney_SDK/transferMoney_SDK.docc`
+- Curated documentation pages for welcome, features, developer tools, examples, FAQ, release notes, and version selection
+- `.spi.yml` manifest so Swift Package Index can build hosted DocC documentation for the package target
+
+### Changed
+- Updated `README.md` and `RELEASES.md` to recommend stable-version selection instead of always defaulting to the latest release
+- Bumped SDK version string and tests to `0.0.9`
+- Kept the `swift-docc-plugin` package dependency so local `generate-documentation` commands continue to work reliably
+
+### Fixed
+- DocC symbol references that still pointed at the old `convert(amount:from:to:)` signature
+- Documentation publishing structure so authored content lives in the DocC catalog and generated output stays in `build-docs/`
+
+### Result
+- ✅ DocC landing page now has curated sections like welcome, features, developer tools, versions, and release notes
+- ✅ Swift Package Index can discover the documentation target from repository metadata
+- ✅ Developers can read which version is recommended or pin older stable versions intentionally
+
+---
+
 ## [0.0.8] - 2026-04-17
 
 ### Fixed

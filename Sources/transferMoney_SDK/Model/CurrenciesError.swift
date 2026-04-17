@@ -19,7 +19,7 @@ import Foundation
 /// let converter = TransferMoney_core()
 ///
 /// do {
-///     let result = try converter.convert(amount: -100, from: .VND, to: .USD)
+///     let result = try converter.convert(amount: -100, from: .VND, to: .USD, choose: .standard)
 /// } catch CurrenciesError.invalidAmount(let msg) {
 ///     print("Số tiền không hợp lệ:", msg)
 /// } catch CurrenciesError.unsupportedConversion(let from, let to) {
@@ -61,4 +61,3 @@ public enum CurrenciesError: Error, LocalizedError {
         }
     }
 }
-
