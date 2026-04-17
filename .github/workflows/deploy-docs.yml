@@ -24,7 +24,7 @@ jobs:
 
       - name: Generate DocC Documentation
         run: |
-          OUTPUT_DIR="$RUNNER_TEMP/build-docs"
+          OUTPUT_DIR="$RUNNER_TEMP/reference-docs"
           rm -rf "$OUTPUT_DIR"
           mkdir -p "$OUTPUT_DIR"
           swift package --allow-writing-to-directory "$OUTPUT_DIR" \
@@ -32,15 +32,16 @@ jobs:
             --target transferMoney_SDK \
             --output-path "$OUTPUT_DIR" \
             --transform-for-static-hosting \
-            --hosting-base-path transferMoney_SDK
+            --hosting-base-path transferMoney_SDK/reference
 
-      - name: Update hosted docs in docs/
+      - name: Update hosted reference in docs/reference/
         run: |
-          rsync -a --delete "$RUNNER_TEMP/build-docs"/ ./docs/
-          if git diff --quiet -- docs; then
+          mkdir -p ./docs/reference
+          rsync -a --delete "$RUNNER_TEMP/reference-docs"/ ./docs/reference/
+          if git diff --quiet -- docs/reference; then
             echo "No documentation changes to commit."
             exit 0
           fi
-          git add docs
+          git add docs/reference
           git commit -m "Update hosted DocC [skip ci]"
           git push origin HEAD:main

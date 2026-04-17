@@ -1,1 +1,261 @@
-<!doctype html><html lang="en-US" class="no-js"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" href="/transferMoney_SDK/favicon.ico"><link rel="mask-icon" href="/transferMoney_SDK/favicon.svg" color="#333333"><title>Documentation</title><script>var baseUrl = "/transferMoney_SDK/"</script><script defer="defer" src="/transferMoney_SDK/js/chunk-vendors.bdb7cbba.js"></script><script defer="defer" src="/transferMoney_SDK/js/index.d2f6f6a9.js"></script><link href="/transferMoney_SDK/css/index.3a335429.css" rel="stylesheet"></head><body data-color-scheme="auto"><noscript><style>.noscript{font-family:"SF Pro Display","SF Pro Icons","Helvetica Neue",Helvetica,Arial,sans-serif;margin:92px auto 140px auto;text-align:center;width:980px}.noscript-title{color:#111;font-size:48px;font-weight:600;letter-spacing:-.003em;line-height:1.08365;margin:0 auto 54px auto;width:502px}@media only screen and (max-width:1068px){.noscript{margin:90px auto 120px auto;width:692px}.noscript-title{font-size:40px;letter-spacing:0;line-height:1.1;margin:0 auto 45px auto;width:420px}}@media only screen and (max-width:735px){.noscript{margin:45px auto 60px auto;width:87.5%}.noscript-title{font-size:32px;letter-spacing:.004em;line-height:1.125;margin:0 auto 35px auto;max-width:330px;width:auto}}#loading-placeholder{display:none}</style><div class="noscript"><h1 class="noscript-title">This page requires JavaScript.</h1><p>Please turn on JavaScript in your browser and refresh the page to view its content.</p></div></noscript><div id="app"></div></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>transferMoney SDK Docs</title>
+  <meta name="description" content="Hosted product documentation for transferMoney SDK.">
+  <link rel="icon" href="./favicon.ico">
+  <link rel="stylesheet" href="./portal.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="brand-row">
+        <a class="brand" href="./">
+          <span class="brand-mark">tm</span>
+          <span class="brand-copy">
+            <strong>transferMoney SDK</strong>
+            <span>Product Docs</span>
+          </span>
+        </a>
+        <nav class="topnav" aria-label="Primary">
+          <a href="#welcome">Developer Guides</a>
+          <a href="#release-notes">Release Notes</a>
+          <a href="./reference/documentation/transfermoney_sdk/">API Reference</a>
+          <a href="https://github.com/RumVu/transferMoney_SDK/releases/tag/v0.0.9">Latest Release</a>
+        </nav>
+      </div>
+      <div class="utility-row">
+        <div class="version-pill">
+          <span>Recommended stable</span>
+          <strong>v0.0.9</strong>
+        </div>
+        <div class="version-pill version-pill-muted">
+          <span>Production pin</span>
+          <strong>v0.0.8</strong>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-shell">
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Welcome</div>
+          <a href="#welcome">Welcome</a>
+          <a href="#features">Features</a>
+          <a href="#developer-tools">Developer Tools</a>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-title">Versions</div>
+          <a href="#version-selection">Version Selection</a>
+          <a href="#release-notes">Release Notes</a>
+          <a href="#install-guide">Install Guide</a>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-title">Reference</div>
+          <a href="#examples">Examples</a>
+          <a href="#faq">FAQ</a>
+          <a href="./reference/documentation/transfermoney_sdk/">API Reference</a>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <section class="hero card" id="welcome">
+          <div class="eyebrow">Welcome</div>
+          <h1>Documentation for teams shipping currency conversion features</h1>
+          <p>
+            transferMoney SDK ships with a product-style documentation portal for onboarding,
+            release selection, and operational guidance, while still exposing full DocC API reference
+            for engineers who need symbol-level details.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#install-guide">Get Started</a>
+            <a class="button button-secondary" href="./reference/documentation/transfermoney_sdk/">Open API Reference</a>
+          </div>
+        </section>
+
+        <section class="card" id="features">
+          <div class="section-header">
+            <div class="eyebrow">Features</div>
+            <h2>What the SDK supports</h2>
+          </div>
+          <div class="feature-grid">
+            <article>
+              <h3>Supported currencies</h3>
+              <p>VND, USD, and AUD with direct and multi-step conversion paths.</p>
+            </article>
+            <article>
+              <h3>Deterministic runtime</h3>
+              <p>No network dependency. All conversion logic runs locally inside the app.</p>
+            </article>
+            <article>
+              <h3>Flexible rates</h3>
+              <p>Use configured defaults, runtime updates, or one-off custom rates per call.</p>
+            </article>
+            <article>
+              <h3>Release-aware docs</h3>
+              <p>Developers can choose a stable version instead of blindly following the latest tag.</p>
+            </article>
+          </div>
+          <div class="info-callout">
+            <strong>Supported conversion matrix</strong>
+            <span>VND ↔ USD, USD ↔ AUD, and VND ↔ AUD through USD.</span>
+          </div>
+        </section>
+
+        <section class="card" id="developer-tools">
+          <div class="section-header">
+            <div class="eyebrow">Developer Tools</div>
+            <h2>Build, test, and publish</h2>
+          </div>
+          <div class="code-block">
+<pre><code>swift test
+
+swift package preview-documentation --target transferMoney_SDK
+
+swift package --allow-writing-to-directory ./build-docs \
+  generate-documentation \
+  --target transferMoney_SDK \
+  --output-path ./build-docs \
+  --transform-for-static-hosting \
+  --hosting-base-path transferMoney_SDK/reference</code></pre>
+          </div>
+          <p class="muted">
+            The public portal lives at the site root, while the generated DocC reference is hosted under
+            <code>/reference/</code>.
+          </p>
+        </section>
+
+        <section class="card" id="version-selection">
+          <div class="section-header">
+            <div class="eyebrow">Version Selection</div>
+            <h2>Pick the right SDK version for the project</h2>
+          </div>
+          <table class="version-table">
+            <thead>
+              <tr>
+                <th>Version</th>
+                <th>Status</th>
+                <th>Best for</th>
+                <th>Install</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>0.0.9</strong></td>
+                <td><span class="status status-good">Recommended</span></td>
+                <td>New integrations that want the current docs portal, SPI metadata, and maintained release guidance.</td>
+                <td><code>from: "0.0.9"</code></td>
+              </tr>
+              <tr>
+                <td><strong>0.0.8</strong></td>
+                <td><span class="status status-stable">Stable previous</span></td>
+                <td>Existing production apps that already validated the previous rollout.</td>
+                <td><code>exact: "0.0.8"</code></td>
+              </tr>
+              <tr>
+                <td><strong>0.0.4</strong></td>
+                <td><span class="status status-legacy">Legacy stable</span></td>
+                <td>Teams pinned around the complete six-path conversion release.</td>
+                <td><code>exact: "0.0.4"</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="release-notes">
+          <div class="section-header">
+            <div class="eyebrow">Release Notes</div>
+            <h2>Recent releases</h2>
+          </div>
+          <div class="release-entry">
+            <h3>0.0.9</h3>
+            <div class="release-date">April 17, 2026</div>
+            <ul>
+              <li>Added a custom documentation portal with guided sections.</li>
+              <li>Added SPI metadata and version-selection guidance.</li>
+              <li>Separated portal docs from DocC API reference hosting.</li>
+            </ul>
+          </div>
+          <div class="release-entry">
+            <h3>0.0.8</h3>
+            <div class="release-date">April 17, 2026</div>
+            <ul>
+              <li>Fixed static-hosting generation flow.</li>
+              <li>Separated authored docs from generated DocC output.</li>
+            </ul>
+          </div>
+          <div class="release-entry">
+            <h3>0.0.7</h3>
+            <div class="release-date">April 17, 2026</div>
+            <ul>
+              <li>Added consumer-facing release and version-selection guidance.</li>
+            </ul>
+          </div>
+          <p>
+            Full release history:
+            <a href="https://github.com/RumVu/transferMoney_SDK/releases">GitHub Releases</a>
+          </p>
+        </section>
+
+        <section class="card" id="install-guide">
+          <div class="section-header">
+            <div class="eyebrow">Install Guide</div>
+            <h2>Swift Package Manager setup</h2>
+          </div>
+          <div class="code-block">
+<pre><code>// New projects
+.package(url: "https://github.com/RumVu/transferMoney_SDK.git", from: "0.0.9")
+
+// Production-pinned apps
+.package(url: "https://github.com/RumVu/transferMoney_SDK.git", exact: "0.0.8")</code></pre>
+          </div>
+        </section>
+
+        <section class="card" id="examples">
+          <div class="section-header">
+            <div class="eyebrow">Examples</div>
+            <h2>Quick sample</h2>
+          </div>
+          <div class="code-block">
+<pre><code>import transferMoney_SDK
+
+let converter = TransferMoney_core()
+let result = try converter.convert(
+  amount: 1_000_000,
+  from: .VND,
+  to: .USD,
+  choose: .standard
+)
+
+print(result.targetAmount)
+print(result.FormattedTargetAmount)</code></pre>
+          </div>
+        </section>
+
+        <section class="card" id="faq">
+          <div class="section-header">
+            <div class="eyebrow">FAQ</div>
+            <h2>Common questions</h2>
+          </div>
+          <div class="faq-list">
+            <article>
+              <h3>Do I have to use the newest release?</h3>
+              <p>No. Start with <strong>0.0.9</strong> for new work, or pin <strong>0.0.8</strong> if your production app already validated that version.</p>
+            </article>
+            <article>
+              <h3>Where is the API reference?</h3>
+              <p>Open <a href="./reference/documentation/transfermoney_sdk/">DocC API Reference</a> for classes, methods, and symbol-level details.</p>
+            </article>
+            <article>
+              <h3>Does the SDK need internet access?</h3>
+              <p>No. Conversion logic runs locally in the client app.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
