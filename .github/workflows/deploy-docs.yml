@@ -24,20 +24,22 @@ jobs:
 
       - name: Generate DocC Documentation
         run: |
-          swift package --allow-writing-to-directory ./build-docs \
+          OUTPUT_DIR="$RUNNER_TEMP/build-docs"
+          rm -rf "$OUTPUT_DIR"
+          mkdir -p "$OUTPUT_DIR"
+          swift package --allow-writing-to-directory "$OUTPUT_DIR" \
             generate-documentation \
             --target transferMoney_SDK \
-            --output-path ./build-docs \
+            --output-path "$OUTPUT_DIR" \
             --transform-for-static-hosting \
             --hosting-base-path transferMoney_SDK
 
       - name: Deploy to gh-pages branch
         run: |
-          git stash
           git fetch origin gh-pages 2>/dev/null || true
           git checkout -B gh-pages origin/gh-pages 2>/dev/null || git checkout --orphan gh-pages
           rm -rf *
-          cp -r build-docs/* .
+          cp -R "$RUNNER_TEMP/build-docs"/. .
           git add .
           git commit -m "Deploy DocC documentation" || true
-          git push origin gh-pages
+          git push origin gh-pages --force
