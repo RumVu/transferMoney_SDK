@@ -12,7 +12,7 @@ final class transferMoney_SDKTests: XCTestCase {
 
     // MARK: - Version
     func testSDKVersion() {
-        XCTAssertEqual(TransferMoneySDK.version, "0.0.5")
+        XCTAssertEqual(TransferMoneySDK.version, "0.0.6")
     }
 
     // MARK: - VND → USD (.standard)
@@ -115,7 +115,7 @@ final class transferMoney_SDKTests: XCTestCase {
     // MARK: - Result Fields
     func testResultContainsSDKVersion() throws {
         let result = try converter.convert(amount: 500_000, from: .VND, to: .USD, choose: .standard)
-        XCTAssertEqual(result.sdkVersion, "0.0.5")
+        XCTAssertEqual(result.sdkVersion, "0.0.6")
     }
 
     func testResultTimestampIsRecent() throws {
