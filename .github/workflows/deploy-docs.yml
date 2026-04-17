@@ -1,47 +1,62 @@
-name: Build Hosted DocC
+name: Deploy Custom Docs Portal
 
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
-    if: github.actor != 'github-actions[bot]'
+  build:
     runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-      - name: Generate DocC Documentation
+      - name: Prepare site artifact
         run: |
-          OUTPUT_DIR="$RUNNER_TEMP/reference-docs"
-          rm -rf "$OUTPUT_DIR"
-          mkdir -p "$OUTPUT_DIR"
-          swift package --allow-writing-to-directory "$OUTPUT_DIR" \
+          SITE_DIR="$RUNNER_TEMP/site"
+          REF_DIR="$RUNNER_TEMP/reference-docs"
+          rm -rf "$SITE_DIR" "$REF_DIR"
+          mkdir -p "$SITE_DIR" "$REF_DIR"
+
+          # Copy the custom portal and all static assets except the generated API reference.
+          rsync -a --exclude reference ./docs/ "$SITE_DIR"/
+
+          # Generate a fresh DocC reference site under /reference/.
+          swift package --allow-writing-to-directory "$REF_DIR" \
             generate-documentation \
             --target transferMoney_SDK \
-            --output-path "$OUTPUT_DIR" \
+            --output-path "$REF_DIR" \
             --transform-for-static-hosting \
             --hosting-base-path transferMoney_SDK/reference
 
-      - name: Update hosted reference in docs/reference/
-        run: |
-          mkdir -p ./docs/reference
-          rsync -a --delete "$RUNNER_TEMP/reference-docs"/ ./docs/reference/
-          if git diff --quiet -- docs/reference; then
-            echo "No documentation changes to commit."
-            exit 0
-          fi
-          git add docs/reference
-          git commit -m "Update hosted DocC [skip ci]"
-          git push origin HEAD:main
+          mkdir -p "$SITE_DIR/reference"
+          rsync -a "$REF_DIR"/ "$SITE_DIR/reference"/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
