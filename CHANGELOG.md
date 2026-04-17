@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.0.8] - 2026-04-17
+
+### Fixed
+- **DocC deployment broken**: Workflow generated files conflicted with committed markdown guides
+- **GitHub Pages build**: Fixed output path for documentation generation
+- **Documentation structure**: Separated generated docs (`build-docs/`) from markdown guides (`docs/`)
+
+### Changes
+- `.github/workflows/deploy-docs.yml`: Changed output path from `./docs` to `./build-docs`
+- `.gitignore`: Added `/build-docs` to ignore generated documentation
+- `docs/` folder: Removed generated files, keeping only markdown guides (WELCOME.md, FEATURES.md, etc.)
+
+### Result
+- ✅ GitHub Actions workflow now works correctly
+- ✅ DocC builds to temporary directory
+- ✅ GitHub Pages deployment fixed
+- ✅ Markdown guides remain in repository
+
+### Tests
+- Total: 17 tests all passing
+
+---
+
+## [0.0.7] - 2026-04-17
+
+### Added
+- `RELEASES.md` - Comprehensive version selection guide
+  - How to download specific versions
+  - Version comparison table
+  - Migration guides between versions
+  - Feature matrix by version
+
+### Features
+- Version selection guide for developers
+- Backward compatibility matrix
+- Clear migration path from v0.0.2 → v0.0.3 (breaking change)
+- Feature comparison across all versions
+
+### Tests
+- Total: 17 tests all passing
+
+---
+
 ## [0.0.6] - 2026-04-17
 
 ### Added
