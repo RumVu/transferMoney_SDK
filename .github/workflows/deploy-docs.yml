@@ -1,4 +1,4 @@
-name: Deploy DocC to GitHub Pages
+name: Build Hosted DocC
 
 on:
   push:
@@ -6,10 +6,10 @@ on:
 
 permissions:
   contents: write
-  pages: write
 
 jobs:
   build-and-deploy:
+    if: github.actor != 'github-actions[bot]'
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -34,12 +34,13 @@ jobs:
             --transform-for-static-hosting \
             --hosting-base-path transferMoney_SDK
 
-      - name: Deploy to gh-pages branch
+      - name: Update hosted docs in docs/
         run: |
-          git fetch origin gh-pages 2>/dev/null || true
-          git checkout -B gh-pages origin/gh-pages 2>/dev/null || git checkout --orphan gh-pages
-          rm -rf *
-          cp -R "$RUNNER_TEMP/build-docs"/. .
-          git add .
-          git commit -m "Deploy DocC documentation" || true
-          git push origin gh-pages --force
+          rsync -a --delete "$RUNNER_TEMP/build-docs"/ ./docs/
+          if git diff --quiet -- docs; then
+            echo "No documentation changes to commit."
+            exit 0
+          fi
+          git add docs
+          git commit -m "Update hosted DocC [skip ci]"
+          git push origin HEAD:main
