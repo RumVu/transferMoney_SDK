@@ -1,0 +1,16 @@
+---
+path:            '/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/15.5/_math.swiftmodule/arm64e-apple-macos.swiftmodule'
+dependencies:
+  - mtime:           1776143347600494154
+    path:            '/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/15.5/_math.swiftmodule/arm64e-apple-macos.swiftmodule'
+    size:            68536
+  - mtime:           1776143346815530325
+    path:            'usr/lib/swift/Swift.swiftmodule/arm64e-apple-macos.swiftinterface'
+    size:            1929969
+    sdk_relative:    true
+  - mtime:           1776143346816462457
+    path:            'usr/lib/swift/_math.swiftmodule/arm64e-apple-macos.swiftinterface'
+    size:            15284
+    sdk_relative:    true
+version:         1
+...

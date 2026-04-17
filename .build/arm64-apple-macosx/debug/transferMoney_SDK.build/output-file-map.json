@@ -1,0 +1,47 @@
+{
+  "": {
+    "swift-dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/master.swiftdeps"
+  },
+  "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/Sources/transferMoney_SDK/Core/TransferMoney_core.swift": {
+    "dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/TransferMoney_core.d",
+    "object": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/TransferMoney_core.swift.o",
+    "swiftmodule": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/TransferMoney_core~partial.swiftmodule",
+    "swift-dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/TransferMoney_core.swiftdeps"
+  },
+  "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/Sources/transferMoney_SDK/Model/ConversionConfigs.swift": {
+    "dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionConfigs.d",
+    "object": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionConfigs.swift.o",
+    "swiftmodule": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionConfigs~partial.swiftmodule",
+    "swift-dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionConfigs.swiftdeps"
+  },
+  "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/Sources/transferMoney_SDK/Model/ConversionOption.swift": {
+    "dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionOption.d",
+    "object": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionOption.swift.o",
+    "swiftmodule": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionOption~partial.swiftmodule",
+    "swift-dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionOption.swiftdeps"
+  },
+  "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/Sources/transferMoney_SDK/Model/ConversionResults.swift": {
+    "dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionResults.d",
+    "object": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionResults.swift.o",
+    "swiftmodule": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionResults~partial.swiftmodule",
+    "swift-dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/ConversionResults.swiftdeps"
+  },
+  "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/Sources/transferMoney_SDK/Model/CurrenciesError.swift": {
+    "dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/CurrenciesError.d",
+    "object": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/CurrenciesError.swift.o",
+    "swiftmodule": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/CurrenciesError~partial.swiftmodule",
+    "swift-dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/CurrenciesError.swiftdeps"
+  },
+  "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/Sources/transferMoney_SDK/Model/Currency.swift": {
+    "dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/Currency.d",
+    "object": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/Currency.swift.o",
+    "swiftmodule": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/Currency~partial.swiftmodule",
+    "swift-dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/Currency.swiftdeps"
+  },
+  "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/Sources/transferMoney_SDK/transferMoney_SDK.swift": {
+    "dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/transferMoney_SDK.d",
+    "object": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/transferMoney_SDK.swift.o",
+    "swiftmodule": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/transferMoney_SDK~partial.swiftmodule",
+    "swift-dependencies": "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDK.build/transferMoney_SDK.swiftdeps"
+  }
+}

@@ -1,0 +1,4 @@
+module transferMoney_SDKPackageTests {
+    header "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/transferMoney_SDKPackageTests.build/transferMoney_SDKPackageTests-Swift.h"
+    requires objc
+}

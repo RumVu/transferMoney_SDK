@@ -1,0 +1,4 @@
+module Snippets {
+    header "/Users/runner/work/transferMoney_SDK/transferMoney_SDK/.build/arm64-apple-macosx/debug/Snippets.build/Snippets-Swift.h"
+    requires objc
+}

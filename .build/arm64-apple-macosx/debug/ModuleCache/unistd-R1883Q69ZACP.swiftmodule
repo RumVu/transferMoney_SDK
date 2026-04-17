@@ -1,0 +1,40 @@
+---
+path:            '/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/15.5/unistd.swiftmodule/arm64e-apple-macos.swiftmodule'
+dependencies:
+  - mtime:           1776143347428294681
+    path:            '/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/15.5/unistd.swiftmodule/arm64e-apple-macos.swiftmodule'
+    size:            18016
+  - mtime:           1776143346815530325
+    path:            'usr/lib/swift/Swift.swiftmodule/arm64e-apple-macos.swiftinterface'
+    size:            1929969
+    sdk_relative:    true
+  - mtime:           1776143322832681509
+    path:            'usr/include/_time.apinotes'
+    size:            1132
+    sdk_relative:    true
+  - mtime:           1776143346821756978
+    path:            'usr/lib/swift/_errno.swiftmodule/arm64e-apple-macos.swiftinterface'
+    size:            3890
+    sdk_relative:    true
+  - mtime:           1776143346825212747
+    path:            'usr/lib/swift/_time.swiftmodule/arm64e-apple-macos.swiftinterface'
+    size:            1065
+    sdk_relative:    true
+  - mtime:           1776143346823067592
+    path:            'usr/lib/swift/_signal.swiftmodule/arm64e-apple-macos.swiftinterface'
+    size:            1101
+    sdk_relative:    true
+  - mtime:           1776143346810910474
+    path:            'usr/lib/swift/sys_time.swiftmodule/arm64e-apple-macos.swiftinterface'
+    size:            1102
+    sdk_relative:    true
+  - mtime:           1776143346827879455
+    path:            'usr/lib/swift/_stdio.swiftmodule/arm64e-apple-macos.swiftinterface'
+    size:            1513
+    sdk_relative:    true
+  - mtime:           1776143346809672856
+    path:            'usr/lib/swift/unistd.swiftmodule/arm64e-apple-macos.swiftinterface'
+    size:            853
+    sdk_relative:    true
+version:         1
+...
