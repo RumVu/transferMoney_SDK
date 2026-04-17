@@ -24,17 +24,17 @@ jobs:
 
       - name: Generate DocC Documentation
         run: |
-          swift package --allow-writing-to-directory ./docs \
+          swift package --allow-writing-to-directory ./build-docs \
             generate-documentation \
             --target transferMoney_SDK \
-            --output-path ./docs \
+            --output-path ./build-docs \
             --transform-for-static-hosting \
             --hosting-base-path transferMoney_SDK
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs
+          path: ./build-docs
 
   deploy:
     needs: build
